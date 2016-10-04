@@ -1,0 +1,64 @@
+---
+title: "Pair Assignment 1"
+author: "Tori Dykes and Mansi Wadhwa"
+date: "Tuesday, October 04, 2016"
+output: pdf_document
+---
+
+The two datasets are: Swiss Fertility and Socio-economic indicators (1888) Data and the New York Air Quality Measurements from among the built-in R datasets.
+
+
+I) Swiss Fertility and Socio-economic indicators (1888) Data
+
+```{r}
+data(swiss)
+names(swiss)
+```
+
+The first dataset 'swiss' is the Swiss Fertility and Socio-economic indicators (1888) Data from R itself that provides standardized fertility measure and socioeconomic indicators for each of the 47 French speaking provinces of Switzerland. It contains a total of 47 observations and 6 variables (all in percent).
+
+
+Exploring the relationship between the variables Fertility and Catholic:
+
+The variable Fertility gives the standardized fertility measure and the variable Catholic gives us the percentage of Catholics in the population of each province.Quite some research has been focussed on exploring the impact of socio-economic, cultural and religious conditions on fertility levels. The case of Switzerland is interesting due to its cultural diversity and the fact that it's population declined greatly in 1885.
+ 
+```{r}
+summary(swiss$Fertility)
+summary(swiss$Catholic)
+
+hist(swiss$Fertility, main = 'Standardized measure of fertility for 47 Swiss provinces in 1888')
+```
+
+To understand the relationship between fertility and Catholic better, we create a factor variable 'factor' that creates 3 categories for the variable Catholic.Variable factor takes 3 levels 0 to 30, 30 to 70 to 100. Level 0 to 30 represents those provinces where the Catholic population is less than or equal to 30% and so on. 
+
+```{r}
+swiss$factor <- cut(swiss$Catholic, c(0, 30, 70, 100))
+boxplot(swiss$Fertility ~ swiss$factor, main = 'Variation in fertility across provinces with different levels of Catholic population', xlab = 'Levels of Catholic population', ylab = 'Fertility indicator')
+
+```
+
+The boxplot shows that provinces with Catholic population is between 30 and 70 percent have a substantially lower ferility level than the other two categories. 
+
+```{r}
+cor.test(swiss$Fertility, swiss$Catholic)
+
+```
+The Pearson's correlation for this pair of variables is 0.46 and hence, shows a positive but moderately strong relationship.
+
+
+
+II) New York Air Quality Measurements
+
+```{r}
+data(airquality)
+names(airquality)
+```
+
+The dataset contains 154 observations and 6 variables. These are daily readings of the given air quality measures from May 1, 1973 to September 30, 1973.The mean temperature over this period was 77.88 F while the mean wind speed was 9.958 mph. The months are taken as numerical variales and the Day is also numeric (1 to 30/31 for each month).
+
+```{r}
+summary(airquality)
+
+```
+
+
