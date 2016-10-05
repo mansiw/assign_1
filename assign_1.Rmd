@@ -13,7 +13,7 @@ library(ggplot2) # for plotting tables
 ```
 
 
-The two datasets are: Swiss Fertility and Socio-economic indicators (1888) Data and the New York Air Quality Measurements from among the built-in R datasets.
+The two datasets are: Swiss Fertility and Socio-economic indicators (1888) Data from R's built-in datasets and worldwide alcohol consumption (by country) from the fivethirtyeight datasets. 
 
 
 ## Swiss Fertility and Socio-economic indicators (1888) Data
@@ -77,18 +77,95 @@ ggplot(swiss, aes(x=Catholic, y=Fertility)) +
 
 We see that while there is a positive relationship between the two variables, it's not very strong. Moreover, we see a strong bimodal distribution in the datapoints, with there being significant clustering around both very low rates and very high rates of Catholicism and few data points between them. 
 
-II) New York Air Quality Measurements
+## Worldwide Alcohol Consumption (by country)
+
+This dataset, published by the WHO in 2010, looks at the amount of beer, spirits, or wine were consumed per person in a given country in 2010. The units (according to this post: http://fivethirtyeight.com/datalab/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/) are individual servings -- so, a can of beer, a glass of wine, or a shot of a spirit. The dataset also looks at the total amount of alcohol consumed in liters. 
 
 ```{r}
-data(airquality)
-names(airquality)
-```
-
-The dataset contains 154 observations and 6 variables. These are daily readings of the given air quality measures from May 1, 1973 to September 30, 1973.The mean temperature over this period was 77.88 F while the mean wind speed was 9.958 mph. The months are taken as numerical variales and the Day is also numeric (1 to 30/31 for each month).
-
-```{r}
-summary(airquality)
-
+alcoholconsump <- read.csv('drinks.csv', skip = 0, header = T, sep = ',',
+              fileEncoding = 'latin1', encoding = 'UTF-8',
+              stringsAsFactors = F)
 ```
 
 
+Here are some general overview statistics for the data set:
+
+&nbsp;
+
+**Beer Consumption**
+
+Average consumption per person per year (across all countries): `r mean(alcoholconsump$beer_servings)`
+
+Max consumption per person per year: `r max(alcoholconsump$beer_servings)` by `r alcoholconsump$country[c(which.max(alcoholconsump$beer_servings))]`
+
+**Wine Consumption**
+
+Average consumption per person per year (across all countries): `r mean(alcoholconsump$wine_servings)`
+
+Max consumption per person per year: `r max(alcoholconsump$wine_servings)` by `r alcoholconsump$country[c(which.max(alcoholconsump$wine_servings))]`
+
+**Spirits Consumption**
+
+Average consumption per person per year (across all countries): `r mean(alcoholconsump$spirit_servings)`
+
+Max consumption per person per year: `r max(alcoholconsump$spirit_servings)` by `r alcoholconsump$country[c(which.max(alcoholconsump$spirit_servings))]`
+
+**Overall Alcohol Consumption (pure)**
+
+Average consumption per person per year (across all countries): `r mean(alcoholconsump$total_litres_of_pure_alcohol)`
+
+Max consumption per person per year: `r max(alcoholconsump$total_litres_of_pure_alcohol)` by `r alcoholconsump$country[c(which.max(alcoholconsump$total_litres_of_pure_alcohol))]`
+
+
+&nbsp;
+
+Since there are 193 countries in this list, we can't look at everyone at once. To give a bit more perspective, here are some visualizations just for the top 10 countries in each category:
+
+```{r, echo=FALSE}
+
+BEERalcoholconsump <- alcoholconsump[order(-alcoholconsump$beer_servings),]
+top10beer <- BEERalcoholconsump[c(1:10),]
+
+barplot(top10beer$beer_servings, names.arg = top10beer$country,xlab = "", ylab = "Beer Servings",col = "gray",
+main = "Top 10 Consumers of Beer",border = "black", las=2)
+
+```
+
+```{r, echo=FALSE}
+
+# need to troubleshoot wonkiness of Czech Republic in graph above
+
+# ggplot(top10beer, aes(x = top10beer$country[order(top10beer$beer_servings)], y = top10beer$beer_servings)) + geom_bar(stat = "identity") --> keeping this here for future reference; Tori can't get this to work properly but maybe will troubleshoot it later
+
+```
+
+```{r, echo=FALSE}
+
+WINEalcoholconsump <- alcoholconsump[order(-alcoholconsump$wine_servings),]
+top10wine <- WINEalcoholconsump[c(1:10),]
+
+barplot(top10wine$wine_servings, names.arg = top10wine$country,xlab = "", ylab = "Wine Servings",col = "gray",
+main = "Top 10 Consumers of Wine",border = "black", las=2)
+
+```
+
+
+```{r, echo=FALSE}
+
+SPIRITalcoholconsump <- alcoholconsump[order(-alcoholconsump$spirit_servings),]
+top10spirit <- SPIRITalcoholconsump[c(1:10),]
+
+barplot(top10spirit$spirit_servings, names.arg = top10spirit$country,xlab = "", ylab = "Spirit Servings",col = "gray",
+main = "Top 10 Consumers of Spirits",border = "black", las=2)
+
+```
+
+```{r, echo=FALSE}
+
+PUREalcoholconsump <- alcoholconsump[order(-alcoholconsump$total_litres_of_pure_alcohol),]
+top10pure <- PUREalcoholconsump[c(1:10),]
+
+barplot(top10pure$total_litres_of_pure_alcohol, names.arg = top10pure$country,xlab = "", ylab = "Consumption (Liters)",col = "gray",
+main = "Top 10 Consumers of Pure Alcohol",border = "black", las=2)
+
+```
