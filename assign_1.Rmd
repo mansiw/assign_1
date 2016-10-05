@@ -5,22 +5,29 @@ date: "Tuesday, October 04, 2016"
 output: pdf_document
 ---
 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+library(stargazer)  # for regression tables
+library(ggplot2) # for plotting tables
+
+```
+
+
 The two datasets are: Swiss Fertility and Socio-economic indicators (1888) Data and the New York Air Quality Measurements from among the built-in R datasets.
 
 
-I) Swiss Fertility and Socio-economic indicators (1888) Data
+## Swiss Fertility and Socio-economic indicators (1888) Data
 
 ```{r}
 data(swiss)
 names(swiss)
 ```
 
-The first dataset 'swiss' is the Swiss Fertility and Socio-economic indicators (1888) Data from R itself that provides standardized fertility measure and socioeconomic indicators for each of the 47 French speaking provinces of Switzerland. It contains a total of 47 observations and 6 variables (all in percent).
+The first dataset 'swiss' is the Swiss Fertility and Socio-economic indicators (1888) Data from R itself that provides standardized fertility measure and socioeconomic indicators for each of the 47 French-speaking provinces of Switzerland. It contains a total of 47 observations and 6 variables (all in percent).
 
+### Exploring the relationship between the variables Fertility and Catholic:
 
-Exploring the relationship between the variables Fertility and Catholic:
-
-The variable Fertility gives the standardized fertility measure and the variable Catholic gives us the percentage of Catholics in the population of each province.Quite some research has been focussed on exploring the impact of socio-economic, cultural and religious conditions on fertility levels. The case of Switzerland is interesting due to its cultural diversity and the fact that it's population declined greatly in 1885.
+The variable Fertility gives the standardized fertility measure and the variable Catholic gives us the percentage of Catholics in the population of each province. Quite some research has been focussed on exploring the impact of socio-economic, cultural and religious conditions on fertility levels. The case of Switzerland is interesting due to its cultural diversity and the fact that its population declined greatly in 1885.
  
 ```{r}
 summary(swiss$Fertility)
@@ -33,11 +40,13 @@ To understand the relationship between fertility and Catholic better, we create 
 
 ```{r}
 swiss$factor <- cut(swiss$Catholic, c(0, 30, 70, 100))
-boxplot(swiss$Fertility ~ swiss$factor, main = 'Variation in fertility across provinces with different levels of Catholic population', xlab = 'Levels of Catholic population', ylab = 'Fertility indicator')
+boxplot(swiss$Fertility ~ swiss$factor, main = 'Variation in fertility across provinces
+\nwith different levels of Catholic population \n', xlab = 'Levels of Catholic population', 
+ylab = 'Fertility indicator')
 
 ```
 
-The boxplot shows that provinces with Catholic population is between 30 and 70 percent have a substantially lower ferility level than the other two categories. 
+The boxplot shows that provinces with a Catholic population between 30 and 70 percent have a substantially lower ferility level than the other two categories. 
 
 ```{r}
 cor.test(swiss$Fertility, swiss$Catholic)
@@ -45,7 +54,28 @@ cor.test(swiss$Fertility, swiss$Catholic)
 ```
 The Pearson's correlation for this pair of variables is 0.46 and hence, shows a positive but moderately strong relationship.
 
+We can also further explore the data by way of a simple regression exploring the relationship between fertility and the percentage of Catholics living in a province.
 
+```{r, results='asis'}
+
+fertilreg <- lm(swiss$Fertility ~ swiss$Catholic)
+
+stargazer(list(fertilreg), header = F, float = F, single.row = T)
+
+```
+
+Finally, we can plot the values and apply a regression line (as well as shaded confidence intervals) to get a further visual perspective:
+
+
+```{r}
+
+ggplot(swiss, aes(x=Catholic, y=Fertility)) +
+    geom_point(shape=1) +    # Use hollow circles
+    geom_smooth(method=lm)
+
+```
+
+We see that while there is a positive relationship between the two variables, it's not very strong. Moreover, we see a strong bimodal distribution in the datapoints, with there being significant clustering around both very low rates and very high rates of Catholicism and few data points between them. 
 
 II) New York Air Quality Measurements
 
