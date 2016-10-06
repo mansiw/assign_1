@@ -81,10 +81,8 @@ We see that while there is a positive relationship between the two variables, it
 
 This dataset, published by the WHO in 2010, looks at the amount of beer, spirits, or wine were consumed per person in a given country in 2010. The units (according to this post: http://fivethirtyeight.com/datalab/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/) are individual servings -- so, a can of beer, a glass of wine, or a shot of a spirit. The dataset also looks at the total amount of alcohol consumed in liters. 
 
-```{r}
-alcoholconsump <- read.csv('drinks.csv', skip = 0, header = T, sep = ',',
-              fileEncoding = 'latin1', encoding = 'UTF-8',
-              stringsAsFactors = F)
+```{r, echo=FALSE}
+source('graphsourcecode.R')
 ```
 
 
@@ -123,11 +121,9 @@ Since there are 193 countries in this list, we can't look at everyone at once. T
 
 ```{r, echo=FALSE}
 
-BEERalcoholconsump <- alcoholconsump[order(-alcoholconsump$beer_servings),]
-top10beer <- BEERalcoholconsump[c(1:10),]
 
 barplot(top10beer$beer_servings, names.arg = top10beer$country,xlab = "", ylab = "Beer Servings",col = "gray",
-main = "Top 10 Consumers of Beer",border = "black", las=2)
+main = "Top 10 Consumers of Beer",border = "black", las=2, cex.names = .6)
 
 ```
 
@@ -141,31 +137,26 @@ main = "Top 10 Consumers of Beer",border = "black", las=2)
 
 ```{r, echo=FALSE}
 
-WINEalcoholconsump <- alcoholconsump[order(-alcoholconsump$wine_servings),]
-top10wine <- WINEalcoholconsump[c(1:10),]
+
 
 barplot(top10wine$wine_servings, names.arg = top10wine$country,xlab = "", ylab = "Wine Servings",col = "gray",
-main = "Top 10 Consumers of Wine",border = "black", las=2)
+main = "Top 10 Consumers of Wine",border = "black", las=2, cex.names = .6)
 
 ```
 
 
 ```{r, echo=FALSE}
 
-SPIRITalcoholconsump <- alcoholconsump[order(-alcoholconsump$spirit_servings),]
-top10spirit <- SPIRITalcoholconsump[c(1:10),]
 
 barplot(top10spirit$spirit_servings, names.arg = top10spirit$country,xlab = "", ylab = "Spirit Servings",col = "gray",
-main = "Top 10 Consumers of Spirits",border = "black", las=2)
+main = "Top 10 Consumers of Spirits",border = "black", las=2, cex.names = .6)
 
 ```
 
 ```{r, echo=FALSE}
 
-PUREalcoholconsump <- alcoholconsump[order(-alcoholconsump$total_litres_of_pure_alcohol),]
-top10pure <- PUREalcoholconsump[c(1:10),]
 
 barplot(top10pure$total_litres_of_pure_alcohol, names.arg = top10pure$country,xlab = "", ylab = "Consumption (Liters)",col = "gray",
-main = "Top 10 Consumers of Pure Alcohol",border = "black", las=2)
+main = "Top 10 Consumers of Pure Alcohol",border = "black", las=2, cex.names = .6)
 
 ```
