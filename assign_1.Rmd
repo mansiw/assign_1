@@ -18,12 +18,23 @@ The two datasets are: Swiss Fertility and Socio-economic indicators (1888) Data 
 
 ## Swiss Fertility and Socio-economic indicators (1888) Data
 
+The first dataset 'swiss' is the Swiss Fertility and Socio-economic indicators (1888) Data from R itself that provides standardized fertility measure and socioeconomic indicators for each of the 47 French-speaking provinces of Switzerland. It contains a total of 47 observations and 6 variables (all in percent).
+
+
+
 ```{r}
 data(swiss)
 names(swiss)
 ```
 
-The first dataset 'swiss' is the Swiss Fertility and Socio-economic indicators (1888) Data from R itself that provides standardized fertility measure and socioeconomic indicators for each of the 47 French-speaking provinces of Switzerland. It contains a total of 47 observations and 6 variables (all in percent).
+The mean percentage of males involved in agriculture in this sample from 47 French speaking provinces of Switzerland is 50.66%. The mean percentag of draftees recieving the highest marks on army examination is 16.49%. 
+
+```{r}
+summary(swiss$Agriculture)
+summary(swiss$Examination)
+```
+
+
 
 ### Exploring the relationship between the variables Fertility and Catholic:
 
@@ -46,7 +57,7 @@ ylab = 'Fertility indicator')
 
 ```
 
-The boxplot shows that provinces with a Catholic population between 30 and 70 percent have a substantially lower ferility level than the other two categories. 
+The boxplot shows that provinces with a Catholic population between 30 and 70 percent have a substantially lower ferility level than the other two categories, implying that provinces with either a relatively low level of Catholic population (0-30%) or those with a relatively high level of Catholic population (70-100%) have a higher fertility indicator.
 
 ```{r}
 cor.test(swiss$Fertility, swiss$Catholic)
