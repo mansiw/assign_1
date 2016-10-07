@@ -9,6 +9,7 @@ output: pdf_document
 
 library(stargazer)  # for regression tables
 library(ggplot2) # for plotting tables
+setwd('/Users/toridykes1/assign_1')
 
 ```
 
