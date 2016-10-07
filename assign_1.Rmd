@@ -1,7 +1,7 @@
 ---
 title: "Pair Assignment 1"
 author: "Tori Dykes and Mansi Wadhwa"
-date: "Tuesday, October 04, 2016"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: pdf_document
 ---
 
@@ -106,28 +106,42 @@ Here are some general overview statistics for the data set:
 Average consumption per person per year (across all countries): `r mean(alcoholconsump$beer_servings)`
 
 Max consumption per person per year: `r max(alcoholconsump$beer_servings)` by `r alcoholconsump$country[c(which.max(alcoholconsump$beer_servings))]`
+
+```{r}
 hist(alcoholconsump$beer_servings)
+```
 
 **Wine Consumption**
 
 Average consumption per person per year (across all countries): `r mean(alcoholconsump$wine_servings)`
 
 Max consumption per person per year: `r max(alcoholconsump$wine_servings)` by `r alcoholconsump$country[c(which.max(alcoholconsump$wine_servings))]`
+
+```{r}
 hist(alcoholconsump$wine_servings)
+```
 
 **Spirits Consumption**
 
 Average consumption per person per year (across all countries): `r mean(alcoholconsump$spirit_servings)`
 
 Max consumption per person per year: `r max(alcoholconsump$spirit_servings)` by `r alcoholconsump$country[c(which.max(alcoholconsump$spirit_servings))]`
+
+```{r}
 hist(alcoholconsump$spirit_servings)
+```
 
 **Overall Alcohol Consumption (pure)**
 
 Average consumption per person per year (across all countries): `r mean(alcoholconsump$total_litres_of_pure_alcohol)`
 
 Max consumption per person per year: `r max(alcoholconsump$total_litres_of_pure_alcohol)` by `r alcoholconsump$country[c(which.max(alcoholconsump$total_litres_of_pure_alcohol))]`
-hist(alcoholconsump$alcoholconsump$total_litres_of_pure_alcohol)
+
+
+```{r}
+hist(alcoholconsump$total_litres_of_pure_alcohol)
+```
+
 
 &nbsp;
 
